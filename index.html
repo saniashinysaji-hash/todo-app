@@ -2,10 +2,33 @@
 <html>
 <head>
   <title>Todo App</title>
+  <style>
+    body {
+      font-family: Arial;
+      text-align: center;
+      background: #f4f4f4;
+    }
+    input {
+      padding: 10px;
+      width: 200px;
+    }
+    button {
+      padding: 10px;
+      margin-left: 5px;
+      cursor: pointer;
+    }
+    li {
+      list-style: none;
+      margin: 10px;
+      background: white;
+      padding: 10px;
+      border-radius: 5px;
+    }
+  </style>
 </head>
 <body>
 
-<h2>My Todo List</h2>
+<h2>✨ My Todo List</h2>
 
 <input id="task" placeholder="Enter task">
 <button onclick="addTask()">Add</button>
@@ -15,9 +38,23 @@
 <script>
 function addTask() {
   let task = document.getElementById("task").value;
+
+  if(task === "") return;
+
   let li = document.createElement("li");
   li.innerText = task;
+
+  let delBtn = document.createElement("button");
+  delBtn.innerText = "❌";
+  delBtn.onclick = function() {
+    li.remove();
+  };
+
+  li.appendChild(delBtn);
+
   document.getElementById("list").appendChild(li);
+
+  document.getElementById("task").value = "";
 }
 </script>
 
