@@ -1,34 +1,62 @@
  <!DOCTYPE html>
 <html>
 <head>
-  <title>Todo App</title>
+  <title>🔥 Cool Todo App</title>
   <style>
     body {
       font-family: Arial;
       text-align: center;
-      background: #f4f4f4;
+      background: linear-gradient(to right, #667eea, #764ba2);
+      color: white;
     }
+
+    h2 {
+      margin-top: 20px;
+    }
+
     input {
       padding: 10px;
       width: 200px;
+      border: none;
+      border-radius: 5px;
     }
+
     button {
       padding: 10px;
       margin-left: 5px;
+      border: none;
+      border-radius: 5px;
+      background: #ff7eb3;
+      color: white;
       cursor: pointer;
     }
+
+    button:hover {
+      background: #ff4f91;
+    }
+
     li {
       list-style: none;
-      margin: 10px;
-      background: white;
+      margin: 10px auto;
       padding: 10px;
-      border-radius: 5px;
+      width: 250px;
+      background: white;
+      color: black;
+      border-radius: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .done {
+      text-decoration: line-through;
+      color: gray;
     }
   </style>
 </head>
 <body>
 
-<h2>✨ My Todo List</h2>
+<h2>✨ My Cool Todo List</h2>
 
 <input id="task" placeholder="Enter task">
 <button onclick="addTask()">Add</button>
@@ -36,26 +64,54 @@
 <ul id="list"></ul>
 
 <script>
-function addTask() {
-  let task = document.getElementById("task").value;
+let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-  if(task === "") return;
+function render() {
+  let list = document.getElementById("list");
+  list.innerHTML = "";
 
-  let li = document.createElement("li");
-  li.innerText = task;
+  tasks.forEach((task, index) => {
+    let li = document.createElement("li");
 
-  let delBtn = document.createElement("button");
-  delBtn.innerText = "❌";
-  delBtn.onclick = function() {
-    li.remove();
-  };
+    let span = document.createElement("span");
+    span.innerText = task.text;
+    if (task.done) span.classList.add("done");
 
-  li.appendChild(delBtn);
+    span.onclick = () => {
+      tasks[index].done = !tasks[index].done;
+      save();
+    };
 
-  document.getElementById("list").appendChild(li);
+    let delBtn = document.createElement("button");
+    delBtn.innerText = "❌";
+    delBtn.onclick = () => {
+      tasks.splice(index, 1);
+      save();
+    };
 
-  document.getElementById("task").value = "";
+    li.appendChild(span);
+    li.appendChild(delBtn);
+    list.appendChild(li);
+  });
 }
+
+function addTask() {
+  let input = document.getElementById("task");
+
+  if (input.value === "") return;
+
+  tasks.push({ text: input.value, done: false });
+
+  input.value = "";
+  save();
+}
+
+function save() {
+  localStorage.setItem("tasks", JSON.stringify(tasks));
+  render();
+}
+
+render();
 </script>
 
 </body>
