@@ -22,3 +22,6 @@ function toggleDone(el) {
     el.style.textDecoration = "line-through";
   }
 }
+function deleteTask(btn) {
+  btn.parentElement.remove();
+}
