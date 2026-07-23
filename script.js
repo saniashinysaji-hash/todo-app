@@ -15,3 +15,10 @@ function addTask() {
 
   input.value = "";
 }
+function toggleDone(el) {
+  if (el.style.textDecoration === "line-through") {
+    el.style.textDecoration = "none";
+  } else {
+    el.style.textDecoration = "line-through";
+  }
+}
